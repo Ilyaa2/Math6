@@ -20,12 +20,17 @@ public class Controller {
         return "input";
     }
 
-    @PostMapping("calcWithStep/{id}")
+    @PostMapping("calc/{id}")
     public String calcWithStep(@PathVariable("id") int id, @RequestBody FunctionInfo functionInfo, HttpSession session){
         //System.out.println("I was here");
         System.out.println(id);
+        functionInfo.setAccuracy(0.1);
+        if (functionInfo.getRight() - functionInfo.getLeft() / functionInfo.getStep() <=4){
+            functionInfo.setStep(0.1);
+        }
         Analysis analysis = new Analysis(functionInfo);
-        var answer = analysis.analyzeStep(id);
+        //var answer = analysis.analyzeStep(id);
+        var answer = analysis.analyze(id);
         session.setAttribute("answers", answer);
         session.setAttribute("analysis", analysis);
         session.setAttribute("option", id);
@@ -55,15 +60,6 @@ public class Controller {
         var i = ChartGenerator.generateChart(analysis.generateCoordsForBase(option), analysis.generateCoordsForApproxMiln(option), "Miln Method");
         return ResponseEntity.ok().body(i);
     }
-
-    /*
-    @PostMapping("calcWithAccuracy/{id}")
-    public String calcWithAccuracy(@PathVariable("id") int id, @RequestBody FunctionInfo functionInfo){
-        System.out.println(id + " " + functionInfo);
-        return "result";
-    }
-
-     */
 
     @GetMapping("result")
     public String getResult(HttpSession session, Model model){

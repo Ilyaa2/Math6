@@ -102,14 +102,15 @@
     <input type="number" id="initY" step="0.01" min="-50" max="50">
 
     <br/><br/>
-<!--    <input type="number" id="step" step="0.000001" min="-50" max="50">-->
-<!--    <label for="step">Размер шага</label><br>-->
-<!--    <input type="number" id="accuracy" step="0.000001" min="-50" max="50">-->
-<!--    <label for="accuracy">Точность</label><br>-->
+    <input type="number" id="step" step="0.000001" min="-50" max="50">
+    <label for="step">Размер шага</label><br>
+    <input type="number" id="accuracy" step="0.000001" min="-50" max="50">
+    <label for="accuracy">Точность</label><br>
 
 
-    <label for="input">Введите значение:</label>
-    <input type="number" id="input" step="0.000001" min="-50" max="50">
+
+<!--    <label for="input">Введите значение:</label>-->
+<!--    <input type="number" id="input" step="0.000001" min="-50" max="50">-->
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
     <button type="button" id="submitBtn">Отправить</button>
@@ -127,16 +128,15 @@
     $(function () {
         $("#submitBtn").on('click', function () {
             //let condition = pressed_button.id != "" && document.getElementById("initY").value != '';
-            let condition = document.getElementById("initY").value != '';
-                if (condition && !document.getElementById("left").value == '' && !document.getElementById("right").value == '' && !document.getElementById("input").value == '') {
+            let condition = document.getElementById("initY").value != '' && document.getElementById("accuracy").value != '' && document.getElementById("step").value != '';
+                if (condition && !document.getElementById("left").value == '' && !document.getElementById("right").value == '') {
                     let data = {
                         left: document.getElementById("left").value,
                         right: document.getElementById("right").value,
                         initY: document.getElementById("initY").value,
-                        aux: document.getElementById("input").value,
+                        step: document.getElementById("step").value,
+                        accuracy: document.getElementById("accuracy").value,
                     }
-                    //let mode = document.getElementById("step").checked ? "calcWithStep" : "calcWithAccuracy";
-                    let mode = "calcWithStep";
                     let func;
                     if (document.getElementById("f1").checked){
                         func = 1;
@@ -147,7 +147,7 @@
                     }
 
                     $.ajax({
-                        url: mode + "/" + func,
+                        url: "calc" + "/" + func,
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: 'application/json',

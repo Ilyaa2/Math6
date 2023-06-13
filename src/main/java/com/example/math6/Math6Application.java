@@ -16,6 +16,7 @@ public class Math6Application {
         SpringApplication.run(Math6Application.class, args);
     }
 
+    /*
     public static void launch(){
         BinaryOperator<Double> function = (x,y) -> y + (1 + x) * y * y;
         //step = 0.1
@@ -26,4 +27,6 @@ public class Math6Application {
         }
 
     }
+
+     */
 }

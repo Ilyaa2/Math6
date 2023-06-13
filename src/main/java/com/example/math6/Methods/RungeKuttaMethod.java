@@ -39,10 +39,10 @@ public class RungeKuttaMethod extends Method{
     }
 
     @Override
-    public ArrayList<Coord> calcWithAccuracy(double accuracy){
+    public ArrayList<Coord> calcWithAccuracy(double theirStep, double accuracy){
         ArrayList<Coord> coords = new ArrayList<>();
         boolean flag = true;
-        double step = 1;
+        double step = theirStep;
         while(flag) {
             flag = false;
             coords.clear();

@@ -11,5 +11,6 @@ public class FunctionInfo {
     private double left;
     private double right;
     private double initY;
-    private double aux;
+    private double step;
+    private double accuracy;
 }

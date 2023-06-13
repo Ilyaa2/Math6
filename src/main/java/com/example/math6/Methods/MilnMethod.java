@@ -1,6 +1,8 @@
 package com.example.math6.Methods;
 
 import com.example.math6.DTO.Coord;
+import com.example.math6.DTO.FunctionInfo;
+import com.example.math6.util.Analysis;
 
 import java.util.ArrayList;
 import java.util.function.BinaryOperator;
@@ -26,8 +28,26 @@ public class MilnMethod extends Method {
     }
 
     @Override
-    public ArrayList<Coord> calcWithAccuracy(double stepik) {
-        return calcWithStep(stepik);
-    }
+    public ArrayList<Coord> calcWithAccuracy(double accuracy, double step) {
+        var myStep = step;
+        do {
+            ArrayList<Coord> coords = calcWithStep(myStep);
+            if (isAccurate(coords, accuracy)){
+                return coords;
+            } else{
+                myStep = step / 2;
+            }
+        } while(true);
 
+    }
+    public boolean isAccurate(ArrayList<Coord> coords, double accuracy) {
+        Analysis analysis = new Analysis(new FunctionInfo(leftBoundary, rightBoundary, getYInit(), 0, 0));
+
+        for (Coord coord: coords){
+            if (Math.abs(analysis.getExactValue(function, coord.getX()) - coord.getY()) > accuracy){
+                return false;
+            }
+        }
+        return true;
+    }
 }

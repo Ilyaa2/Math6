@@ -31,9 +31,9 @@ public class EulerMethod extends Method {
 
 
     @Override
-    public ArrayList<Coord> calcWithAccuracy(double accuracy){
+    public ArrayList<Coord> calcWithAccuracy(double theirStep, double accuracy){
         ArrayList<Coord> coords = new ArrayList<>();
-        double step = 1;
+        double step = theirStep;
         boolean flag = true;
         while(flag) {
             flag = false;

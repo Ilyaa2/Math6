@@ -40,15 +40,29 @@ public class Analysis {
         c3 = (y + x / 10 + 0.01) / Math.exp(10*x);
     }
 
-    public ArrayList<Answer> analyzeStep(int option) {
+    public double getExactValue(BinaryOperator<Double> function, double x){
+        if (function == taskFunctions.get(0)){
+            return answerFunctions.get(0).apply(x, c1);
+        } else if (function == taskFunctions.get(1)){
+            return answerFunctions.get(1).apply(x, c2);
+        }
+        return answerFunctions.get(2).apply(x, c3);
+    }
+
+    //analyzeStep
+    public ArrayList<Answer> analyze(int option) {
         var taskFunction = taskFunctions.get(option - 1);
         EulerMethod eulerMethod = new EulerMethod(taskFunction, functionInfo.getLeft(), functionInfo.getRight(), functionInfo.getInitY());
         MilnMethod milnMethod = new MilnMethod(taskFunction, functionInfo.getLeft(), functionInfo.getRight(), functionInfo.getInitY());
         RungeKuttaMethod rungeKuttaMethod = new RungeKuttaMethod(taskFunction, functionInfo.getLeft(), functionInfo.getRight(), functionInfo.getInitY());
 
-        ArrayList<Coord> coords1 = eulerMethod.calcWithStep(functionInfo.getAux());
-        ArrayList<Coord> coords2 = rungeKuttaMethod.calcWithStep(functionInfo.getAux());
-        ArrayList<Coord> coords3 = milnMethod.calcWithStep(functionInfo.getAux());
+        //ArrayList<Coord> coords1 = eulerMethod.calcWithStep(functionInfo.getAux());
+        //ArrayList<Coord> coords2 = rungeKuttaMethod.calcWithStep(functionInfo.getAux());
+        //ArrayList<Coord> coords3 = milnMethod.calcWithStep(functionInfo.getAux());
+
+        ArrayList<Coord> coords1 = eulerMethod.calcWithAccuracy(functionInfo.getStep(), functionInfo.getAccuracy());
+        ArrayList<Coord> coords2 = rungeKuttaMethod.calcWithAccuracy(functionInfo.getStep(), functionInfo.getAccuracy());
+        ArrayList<Coord> coords3 = milnMethod.calcWithAccuracy(functionInfo.getStep(), functionInfo.getAccuracy());
         return extractY(coords1, coords2, coords3, option);
     }
 

@@ -16,5 +16,5 @@ public abstract class Method {
     protected final double yInit;
 
     public abstract ArrayList<Coord> calcWithStep(double step);
-    public abstract ArrayList<Coord> calcWithAccuracy(double accuracy);
+    public abstract ArrayList<Coord> calcWithAccuracy(double step, double accuracy);
 }
