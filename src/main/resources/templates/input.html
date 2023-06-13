@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        h1 {
+            color: #333333;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 10px;
+            text-align: right;
+            width: 120px;
+        }
+
+        input[type="number"], input[type="text"] {
+            font-size: 20px;
+            padding: 10px;
+            width: 200px;
+        }
+
+        button, input[type="button"] {
+            background-color: #4CAF50;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 20px;
+        }
+
+        button:disabled, input:disabled {
+            background-color: #CCCCCC;
+            color: #666666;
+            cursor: default;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 50px auto 0;
+            width: 80%;
+        }
+
+        th, td {
+            border: 1px solid #999999;
+            padding: 10px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        th {
+            background-color: #EEEEEE;
+        }
+
+        td {
+            width: 30%;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F5F5F5;
+        }
+    </style>
+</head>
+<body>
+<h1>Таблица</h1>
+<form id="myForm">
+<!--    -->
+<!--    <button type="button" class="button" id="f1" onclick="handleButtonClick(this)">Функция y + (1 + x) * y^2</button>-->
+<!--    <button type="button" class="button" id="f2" onclick="handleButtonClick(this)">Функция x^2 + 2y - 5</button>-->
+<!--    <button type="button" class="button" id="f3" onclick="handleButtonClick(this)">Функция 3x^3 - 6y^2 - 2x</button>-->
+<!--    -->
+
+    <input type="radio" class="button" id="f1" name="function" required>
+    <label for="f1">y' = y + (1 + x) * y^2</label><br>
+    <input type="radio" class="button" id="f2" name="function" required>
+    <label for="f2">y' = y + x^2 - (y + x)</label><br>
+    <input type="radio" class="button" id="f3" name="function" required>
+    <label for="f3">y' = x + 10 * y</label><br>
+
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <label for="left">Левая граница:</label>
+    <input type="number" id="left" step="0.01" min="-50" max="50">
+    <label for="right">Правая граница:</label>
+    <input type="number" id="right" step="0.01" min="-50" max="50">
+
+    <label for="initY">Начальный Y:</label>
+    <input type="number" id="initY" step="0.01" min="-50" max="50">
+
+    <br/><br/>
+<!--    <input type="number" id="step" step="0.000001" min="-50" max="50">-->
+<!--    <label for="step">Размер шага</label><br>-->
+<!--    <input type="number" id="accuracy" step="0.000001" min="-50" max="50">-->
+<!--    <label for="accuracy">Точность</label><br>-->
+
+
+    <label for="input">Введите значение:</label>
+    <input type="number" id="input" step="0.000001" min="-50" max="50">
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+    <button type="button" id="submitBtn">Отправить</button>
+</form>
+
+<script>
+    /*
+    let pressed_button = "";
+    function handleButtonClick(clickedButton) {
+        pressed_button = clickedButton;
+    }
+
+     */
+
+    $(function () {
+        $("#submitBtn").on('click', function () {
+            //let condition = pressed_button.id != "" && document.getElementById("initY").value != '';
+            let condition = document.getElementById("initY").value != '';
+                if (condition && !document.getElementById("left").value == '' && !document.getElementById("right").value == '' && !document.getElementById("input").value == '') {
+                    let data = {
+                        left: document.getElementById("left").value,
+                        right: document.getElementById("right").value,
+                        initY: document.getElementById("initY").value,
+                        aux: document.getElementById("input").value,
+                    }
+                    //let mode = document.getElementById("step").checked ? "calcWithStep" : "calcWithAccuracy";
+                    let mode = "calcWithStep";
+                    let func;
+                    if (document.getElementById("f1").checked){
+                        func = 1;
+                    } else if (document.getElementById("f2").checked){
+                        func = 2;
+                    } else {
+                        func = 3;
+                    }
+
+                    $.ajax({
+                        url: mode + "/" + func,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            window.location.href = '/result';
+                        },
+                    });
+                    alert("Данные отправлены!");
+                } else {
+                    alert("Данные введены некорректно");
+                }
+        });
+
+    });
+</script>
+</body>
+</html>

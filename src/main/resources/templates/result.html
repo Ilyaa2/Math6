@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все хорошо</title>
+</head>
+<body>
+<p>Графики</p>
+<img th:src="@{/Chart1.png}"/>
+<img th:src="@{/Chart2.png}"/>
+<img th:src="@{/Chart3.png}"/>
+
+<table>
+    <table>
+        <thead>
+        <tr>
+            <th>X</th>
+            <th>Метод Эйлера</th>
+            <th>Метод Рунге-Кутта</th>
+            <th>Метод Милна</th>
+            <th>Точный ответ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="answer : ${answers}">
+            <td th:text="${answer.x}"></td>
+            <td th:text="${answer.y1}"></td>
+            <td th:text="${answer.y2}"></td>
+            <td th:text="${answer.y3}"></td>
+            <td th:text="${answer.trueY}"></td>
+        </tr>
+        </tbody>
+    </table>
+</table>
+</body>
+</html>
